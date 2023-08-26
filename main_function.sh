@@ -31,7 +31,8 @@ filename_for_functions= $(pwd | grep -o '.*records/')
 ###test
 . records/records_functions/insert_function/insert_record.sh $filename $filename\_log
 . records/records_functions/delete_function/delete_record.sh $filename $filename\_log
- 
+. records/records_functions/update_quantity/update_record_quantity.sh $filename $filename\_log
+. records/records_functions/update_name/update_name.sh $filename $filename\_log
 
 if [[ "$#" -ne 1 ]]; then
 	echo "Wrong script usage,must provide 1 positional argument" >&2
@@ -65,9 +66,9 @@ else
 		     	c)
 				search_by_name ;;
 		     	d)
-				echo update_name ;;
+				update_record_name ;;
 		     	e)
-				echo update_quantity ;;
+				update_record_quantity ;;
 		     	f)
 				echo display_records_sum ;;
 		     	g)
