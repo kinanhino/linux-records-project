@@ -8,6 +8,7 @@
 
 filename=$1
 filename_for_functions= $(pwd | grep -o '.*records/')
+#log_file=$filename\_log
 #echo "$filename_for_functions"
 
 . records/records_functions/search/search_by_name.sh $filename
@@ -28,9 +29,10 @@ filename_for_functions= $(pwd | grep -o '.*records/')
 #select_or_show "dark"
 
 ###test
-. records/records_functions/insert_function/insert_record.sh $filename
-
-#insert_record
+. records/records_functions/insert_function/insert_record.sh $filename $filename\_log
+. records/records_functions/delete_function/delete_record.sh $filename $filename\_log
+. records/records_functions/update_quantity/update_record_quantity.sh $filename $filename\_log
+. records/records_functions/update_name/update_name.sh $filename $filename\_log
 
 if [[ "$#" -ne 1 ]]; then
 	echo "Wrong script usage,must provide 1 positional argument" >&2
@@ -38,10 +40,11 @@ if [[ "$#" -ne 1 ]]; then
 	echo "The filename is the records database" >&2
 	exit 1
 else
-	if [[ ! -f "records/$filename" ]]; then
+	if [[ ! -f "$filename" ]]; then
 		echo "File was not found"
-		touch records/$filename
-		touch records/${filename}_log
+		#echo $(pwd)
+		touch $filename
+		touch $filename\_log
 		if [[ $? -eq 0 ]]; then
 			echo "File created successfully"
 			echo "it's empty at the beginning, maybe start with inserting to it"
@@ -50,23 +53,22 @@ else
 			exit 1
 		fi
 	fi
-	
 	###start main function###
 	while :; do
+		sleep 2
 		menu_function
-
 		read -p "Choose an option: " choice
 		case $choice in
 			a)
-				echo insert_record ;;
+				insert_record ;;
 		     	b)
-				echo delete_record ;;
+				delete_record ;;
 		     	c)
-				echo search_by_name ;;
+				search_by_name ;;
 		     	d)
-				echo update_name ;;
+				update_record_name ;;
 		     	e)
-				echo update_quantity ;;
+				update_record_quantity ;;
 		     	f)
 				echo display_records_sum ;;
 		     	g)
@@ -77,7 +79,7 @@ else
 				echo "Invalid choice. Please choose again." ;; 
 		 esac 
 
-		sleep 2
+		
 	done
 fi
 
