@@ -4,8 +4,8 @@
 
 #source the checkCopiesNumber and the checkRecordName in order to use them
 #they are at the same level of this script file
-source check_number_of_copies_validity.sh
-source check_record_name_validity.sh
+source records/utils/input_validation_help/check_number_of_copies_validity.sh
+source records/utils/input_validation_help/check_record_name_validity.sh
 #now we can use each function inside each of those files
 
 re_user_input='[ a-zA-Z0-9]+, [0-9]+'
@@ -40,13 +40,15 @@ check_user_input () {
 				return 1
 			fi
 		else
+			echo
 			echo "Wrong input, must be as follows: 'recordName, Copies'">&2
 			echo "recordName must include characters,numbers and spaces only">&2
 			echo "Copies must be a positive number">&2
+			echo
 			return 1	
 		fi
 	fi
-	echo "$record_name,$num_of_copies"
+	#echo "$record_name,$num_of_copies"
 	return 0
 
 }

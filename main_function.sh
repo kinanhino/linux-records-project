@@ -7,11 +7,31 @@
 . records/records_functions/exit_function/clean_exit.sh
 
 filename=$1
-filename_for_functions='../../$1'
-#example for how the logfile should be accessed from each function because they all set 2 levels down
+filename_for_functions= $(pwd | grep -o '.*records/')
+#echo "$filename_for_functions"
 
+. records/records_functions/search/search_by_name.sh $filename
+
+. records/utils/record_list_helper/select_or_show.sh $filename
+
+###test
+#example for how the logfile should be accessed from each function because they all set 2 levels down
 #./ records/records_functions/search/search_record.sh $1
-#log_filename="../../${filename}_log"
+#log_filename="records/${filename}_log"
+
+###test
+#. records/utils/record_list_helper/just_show.sh $filename
+#just_show "dark"
+
+###test
+#. records/utils/record_list_helper/select_or_show.sh $filename
+#select_or_show "dark"
+
+###test
+. records/records_functions/insert_function/insert_record.sh $filename
+
+#insert_record
+
 if [[ "$#" -ne 1 ]]; then
 	echo "Wrong script usage,must provide 1 positional argument" >&2
 	echo "Usage: $0 filename" >&2
@@ -21,6 +41,7 @@ else
 	if [[ ! -f "records/$filename" ]]; then
 		echo "File was not found"
 		touch records/$filename
+		touch records/${filename}_log
 		if [[ $? -eq 0 ]]; then
 			echo "File created successfully"
 			echo "it's empty at the beginning, maybe start with inserting to it"
@@ -29,6 +50,7 @@ else
 			exit 1
 		fi
 	fi
+	
 	###start main function###
 	while :; do
 		menu_function

@@ -21,9 +21,5 @@ check_record_name_validity () {
 
 	fi
 }
-check_record_name_validity "$record_name"
-flag=$?
-if [[ $flag -eq 0 ]];
-coninsdas good
-else
-echo "bad record name"
+#check_record_name_validity "$record_name"
+
