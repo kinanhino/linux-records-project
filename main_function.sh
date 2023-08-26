@@ -7,9 +7,11 @@
 . records/records_functions/exit_function/clean_exit.sh
 
 filename=$1
-
+filename_for_functions='../../$1'
 #example for how the logfile should be accessed from each function because they all set 2 levels down
-log_filename="../../${filename}_log"
+
+#./ records/records_functions/search/search_record.sh $1
+#log_filename="../../${filename}_log"
 if [[ "$#" -ne 1 ]]; then
 	echo "Wrong script usage,must provide 1 positional argument" >&2
 	echo "Usage: $0 filename" >&2
